@@ -44,7 +44,7 @@
             padding: 10px 15px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s, transform 0.3s; /* Add transform animation */
+            transition: background-color 0.3s, transform 0.1s; /* Add transform animation */
         }
 
         .menu-button:hover {
@@ -70,9 +70,9 @@
         }
 
         .content img {
-            max-width: 100%; /* Make the image responsive */
+            max-width: 80%; /* Make the image responsive */
             height: auto; /* Maintain aspect ratio */
-            margin-top: 20px; /* Add some space above the image */
+            margin: 20px 0; /* Center image with vertical space */
             transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
         }
 
@@ -89,12 +89,16 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.1s; /* Add transform animation */
             margin-top: 20px; /* Space above button */
         }
 
         .button:hover {
             background-color: darkred; /* Darker red on hover */
+        }
+
+        .button:active {
+            transform: scale(0.95); /* Scale down when clicked */
         }
 
         .service-container {
@@ -168,7 +172,6 @@
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'flex' ? 'none' : 'flex';
-            // Add animation class for the menu button
             const menuButton = document.querySelector('.menu-button');
             menuButton.classList.add('active');
             setTimeout(() => {
