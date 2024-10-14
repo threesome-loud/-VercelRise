@@ -97,16 +97,10 @@
         <a href="#" onclick="showSection('services')">Services</a>
     </div>
 
-    <div id="home" class="content active">
+    <div id="home-section" class="content active">
         <h1>Welcome to Rise Executor</h1>
         <p>Your success is our mission.</p>
-        <!-- Removed image from home section -->
-    </div>
-
-    <div id="home" class="content active">
-        <h1>Welcome to Rise Executor</h1>
-        <p>Your success is our mission.</p>
-        <img src="image.jpg"> <!-- Replace with your local image file name -->
+        <img src="image.jpg" alt="Rise Executor Image"> <!-- Replace with your local image file name -->
     </div>
     
     <div id="download" class="content">
@@ -141,7 +135,7 @@
 
         // Automatically show the home section on page load
         window.onload = function() {
-            showSection('home');
+            showSection('home-section');
         };
     </script>
 </body>
