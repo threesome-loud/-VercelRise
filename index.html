@@ -59,7 +59,7 @@
         }
 
         ul {
-            list-style-type: disc; /* Use bullet points */
+            list-style-type: none; /* Remove bullet points */
             padding: 0; /* Remove default padding */
             display: flex; /* Use flexbox for centering */
             flex-direction: column; /* Stack items vertically */
@@ -70,6 +70,20 @@
         li {
             margin: 10px 0; /* Add some space between items */
             text-align: center; /* Center text for each list item */
+        }
+
+        .service-box {
+            border: 2px solid red; /* Red outline */
+            border-radius: 5px; /* Rounded corners */
+            padding: 20px;
+            margin: 10px;
+            width: 200px; /* Set a fixed width */
+            transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
+        }
+
+        .service-box:hover {
+            transform: scale(1.05); /* Scale up the box */
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add shadow on hover */
         }
 
         .button {
@@ -122,12 +136,10 @@
 
     <div id="services" class="content">
         <h1>Services</h1>
-        <ul>
-            <li>Fast Injection</li>
-            <li>Clean and Easy to Understand UI</li>
-            <li>24/7 Support</li>
-            <li>Script Hub</li>
-        </ul>
+        <div class="service-box">Fast Injection</div>
+        <div class="service-box">Clean and Easy to Understand UI</div>
+        <div class="service-box">24/7 Support</div>
+        <div class="service-box">Script Hub</div>
     </div>
 
     <script>
