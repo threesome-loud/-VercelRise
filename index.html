@@ -66,6 +66,22 @@
             text-align: center; /* Center text for each list item */
         }
 
+        .button {
+            background-color: red; /* Button background color */
+            color: black; /* Button text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* Space above button */
+        }
+
+        .button:hover {
+            background-color: darkred; /* Darker red on hover */
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -84,12 +100,13 @@
     <div id="home" class="content active">
         <h1>Welcome to Rise Executor</h1>
         <p>Your success is our mission.</p>
-        <img src="your-image.jpg"> <!-- Replace with your local image file name -->
+        <!-- Removed image from home section -->
     </div>
 
     <div id="download" class="content">
         <h1>Download</h1>
         <p>Here you can download our products and services.</p>
+        <button class="button">Download Rise For Windows</button> <!-- Download button -->
     </div>
 
     <div id="contact" class="content">
