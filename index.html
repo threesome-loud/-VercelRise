@@ -91,7 +91,7 @@
 <body>
 
     <div class="navbar">
-        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('home-section')">Home</a>
         <a href="#" onclick="showSection('download')">Download</a>
         <a href="#" onclick="showSection('contact')">Contact</a>
         <a href="#" onclick="showSection('services')">Services</a>
@@ -135,6 +135,11 @@
 
         // Automatically show the home section on page load
         window.onload = function() {
+            showSection('home-section');
+        };
+
+        // Show the home section when the tab is focused
+        window.onfocus = function() {
             showSection('home-section');
         };
     </script>
