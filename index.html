@@ -4,77 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise Executor</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #000; /* Black background */
-            color: #e63946; /* Red text */
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
         }
         header {
-            background: rgb(13, 13, 13); /* RGB background for header */
-            color: #e63946; /* Red text for header */
-            padding: 20px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: rgb(13, 13, 13); /* RGB background for footer */
-            color: #e63946; /* Red text for footer */
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .download-btn {
-            background-color: #e63946; /* Red button */
-            color: #fff; /* White text for button */
-            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 20px 0;
-            cursor: pointer;
-            border-radius: 5px;
+            background-color: #111;
         }
-        .download-btn:hover {
-            background-color: #d62839; /* Darker red on hover */
+        h1 {
+            margin: 0;
+            color: red;
+        }
+        nav a {
+            color: red;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            text-align: center;
+            padding: 50px;
+        }
+        .download-button {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .download-button:hover {
+            background-color: darkred;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Rise Executor</h1>
-        <p>The best upcoming exploit out there.</p>
+        <h1>Rise Executor</h1>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
-
-    <main>
-        <h2>About Us</h2>
-        <p>At Rise Executor, we specialize in providing the best exploiting experience with us.</p>
-        
-        <h2>Our Services</h2>
-        <ul>
-            <li>Fast Injection</li>
-            <li>Undetected</li>
-            <li>Clean UI</li>
-        </ul>
-
-        <h2>Download NOW!</h2>
-        <a href="path/to/your-brochure.pdf" class="download-btn" download>Download Rise Executor</a>
-
-        <h2>Join our discord</h2>
-        <p>Discord:https://discord.gg/qY8BjSWY</p>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Rise Executor. All rights reserved.</p>
-    </footer>
+    <div class="content">
+        <h2>Welcome to Rise Executor</h2>
+        <p>Your one-stop solution for all execution needs.</p>
+        <button class="download-button" onclick="window.location.href='your-download-link-here'">Download</button>
+    </div>
 </body>
 </html>
