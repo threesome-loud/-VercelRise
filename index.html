@@ -20,16 +20,18 @@
             display: flex;
             justify-content: center;
             background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px;
+            padding: 10px 0;
             position: fixed;
             width: 100%;
-            top: -60px; /* Start off-screen */
+            top: -60px;
+            left: 0;
+            right: 0;
             z-index: 1000;
             transition: top 0.3s ease-in-out;
         }
 
         .navbar.active {
-            top: 0; /* Slide down to show */
+            top: 0;
         }
 
         .navbar a {
