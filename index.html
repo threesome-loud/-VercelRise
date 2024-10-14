@@ -54,14 +54,16 @@
 
         ul {
             list-style-type: disc; /* Use bullet points */
-            padding-left: 0; /* Remove default padding */
-            display: inline-block; /* Center the list */
-            text-align: left; /* Align text to the left for proper bullets */
+            padding: 0; /* Remove default padding */
+            display: flex; /* Use flexbox for centering */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items */
             color: red; /* Change bullet color to red */
         }
 
         li {
             margin: 10px 0; /* Add some space between items */
+            text-align: center; /* Center text for each list item */
         }
 
         @keyframes fadeIn {
