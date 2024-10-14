@@ -46,6 +46,12 @@
             color: red; /* Change text color to red */
         }
 
+        .content img {
+            max-width: 100%; /* Make the image responsive */
+            height: auto; /* Maintain aspect ratio */
+            margin-top: 20px; /* Add some space above the image */
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -64,6 +70,7 @@
     <div id="home" class="content active">
         <h1>Welcome to Rise Executor</h1>
         <p>Your success is our mission.</p>
+        <img src="your-image-url.jpg" alt="Description of Image"> <!-- Replace with your image URL -->
     </div>
 
     <div id="download" class="content">
