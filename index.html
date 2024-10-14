@@ -5,36 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise Executor</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             background-color: #121212;
             color: #ffffff;
-            text-align: center; /* Center all text */
+            text-align: center;
+            overflow-x: hidden;
         }
 
         .navbar {
-            display: none; /* Initially hidden */
+            display: flex;
             justify-content: center;
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
-            position: relative; /* Position relative for the menu button */
+            position: fixed;
+            width: 100%;
+            top: -60px; /* Start off-screen */
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+        }
+
+        .navbar.active {
+            top: 0; /* Slide down to show */
         }
 
         .navbar a {
             color: red;
             padding: 14px 20px;
             text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: red;
+            transition: all 0.3s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
         }
 
         .navbar a:hover {
-            background-color: red;
-            color: black;
+            color: #ff6b6b;
         }
 
         .menu-button {
-            position: absolute; /* Position the button in the top right */
+            position: fixed;
             top: 10px;
             right: 10px;
             background-color: red;
@@ -44,91 +72,153 @@
             padding: 10px 15px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s, transform 0.1s; /* Add transform animation */
+            transition: all 0.3s ease;
+            z-index: 1001;
         }
 
         .menu-button:hover {
-            background-color: darkred; /* Darker red on hover */
+            background-color: #ff6b6b;
+            transform: scale(1.05);
         }
 
         .menu-button:active {
-            transform: scale(0.95); /* Scale down when clicked */
+            transform: scale(0.95);
         }
 
         .content {
             display: none;
-            padding: 20px;
+            padding: 80px 20px 20px;
             animation: fadeIn 0.5s;
+            min-height: 100vh;
         }
 
         .active {
             display: block;
         }
 
-        .content h1, .content p {
-            color: red; /* Change text color to red */
+        .content h1 {
+            color: red;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .content p {
+            color: #ff6b6b;
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            animation: slideInFromRight 1s ease-out;
         }
 
         .content img {
-            max-width: 80%; /* Make the image responsive */
-            height: auto; /* Maintain aspect ratio */
-            margin: 20px 0; /* Add space above and below the image */
-            display: block; /* Center the image */
-            margin-left: auto;
-            margin-right: auto;
-            transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
+            max-width: 80%;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
         }
 
         .content img:hover {
-            transform: scale(1.1); /* Scale up the image */
-            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add a stronger shadow on hover */
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
         }
 
         .button {
-            background-color: red; /* Button background color */
-            color: black; /* Button text color */
-            padding: 10px 20px;
+            background-color: red;
+            color: black;
+            padding: 12px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.1s; /* Add transform animation */
-            margin-top: 20px; /* Space above button */
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .button:hover {
-            background-color: darkred; /* Darker red on hover */
+            background-color: #ff6b6b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
         }
 
         .button:active {
-            transform: scale(0.95); /* Scale down when clicked */
+            transform: translateY(1px);
         }
 
         .service-container {
             display: flex;
-            flex-direction: column; /* Stack boxes on top of each other */
-            align-items: center; /* Center boxes horizontally */
-            gap: 20px; /* Space between boxes */
-            margin-top: 20px; /* Space above the service boxes */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
         }
 
         .service-box {
-            border: 2px solid red; /* Red outline */
-            border-radius: 5px; /* Rounded corners */
-            padding: 20px;
-            width: 200px; /* Set a fixed width */
-            transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
-            color: red; /* Text color inside the box */
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 25px;
+            width: 220px;
+            transition: all 0.5s ease;
+            color: red;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
         }
 
         .service-box:hover {
-            transform: scale(1.05); /* Scale up the box */
-            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add shadow on hover */
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.4);
         }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        #contact-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #contact-form input,
+        #contact-form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid red;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        #contact-form textarea {
+            height: 100px;
         }
     </style>
 </head>
@@ -146,35 +236,53 @@
     <div id="home-section" class="content active">
         <h1>Welcome to Rise Executor</h1>
         <p>Your success is our mission.</p>
-        <img src="image.jpg" alt="Rise Executor Image"> <!-- Replace with your local image file name -->
-        <button class="button" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Now</button> <!-- Redirect to chosen link -->
+        <img src="/api/placeholder/800/450" alt="Rise Executor Image">
+        <button class="button pulse" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Now</button>
     </div>
     
     <div id="download" class="content">
         <h1>Download</h1>
         <p>Here you can download our products and services.</p>
-        <button class="button" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Rise For Windows</button> <!-- Redirect to chosen link -->
+        <button class="button" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Rise For Windows</button>
     </div>
 
     <div id="contact" class="content">
         <h1>Contact</h1>
         <p>Feel free to reach out to us via email or phone.</p>
+        <form id="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit" class="button">Send Message</button>
+        </form>
     </div>
 
     <div id="services" class="content">
         <h1>Services</h1>
         <div class="service-container">
-            <div class="service-box">Fast Injection</div>
-            <div class="service-box">Clean and Easy to Understand UI</div>
-            <div class="service-box">24/7 Support</div>
-            <div class="service-box">Script Hub</div>
+            <div class="service-box">
+                <h3>Fast Injection</h3>
+                <p>Lightning-fast execution of your scripts.</p>
+            </div>
+            <div class="service-box">
+                <h3>Clean UI</h3>
+                <p>Easy to understand and navigate interface.</p>
+            </div>
+            <div class="service-box">
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock assistance for all your needs.</p>
+            </div>
+            <div class="service-box">
+                <h3>Script Hub</h3>
+                <p>Access a vast library of ready-to-use scripts.</p>
+            </div>
         </div>
     </div>
 
     <script>
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
-            navbar.style.display = navbar.style.display === 'flex' ? 'none' : 'flex';
+            navbar.classList.toggle('active');
         }
 
         function showSection(sectionId) {
@@ -185,10 +293,23 @@
             document.getElementById(sectionId).classList.add('active');
         }
 
-        // Automatically show the home section on page load
         window.onload = function() {
             showSection('home-section');
         };
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            } else {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            }
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+        });
     </script>
 </body>
 </html>
