@@ -72,7 +72,10 @@
         .content img {
             max-width: 80%; /* Make the image responsive */
             height: auto; /* Maintain aspect ratio */
-            margin: 20px 0; /* Center image with vertical space */
+            margin: 20px 0; /* Add space above and below the image */
+            display: block; /* Center the image */
+            margin-left: auto;
+            margin-right: auto;
             transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
         }
 
@@ -172,11 +175,6 @@
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'flex' ? 'none' : 'flex';
-            const menuButton = document.querySelector('.menu-button');
-            menuButton.classList.add('active');
-            setTimeout(() => {
-                menuButton.classList.remove('active');
-            }, 300); // Duration of the animation
         }
 
         function showSection(sectionId) {
@@ -189,11 +187,6 @@
 
         // Automatically show the home section on page load
         window.onload = function() {
-            showSection('home-section');
-        };
-
-        // Show the home section when the tab is focused
-        window.onfocus = function() {
             showSection('home-section');
         };
     </script>
