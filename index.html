@@ -14,10 +14,11 @@
         }
 
         .navbar {
-            display: flex;
+            display: none; /* Initially hidden */
             justify-content: center;
             background-color: black;
             padding: 10px;
+            position: relative; /* Position relative for the menu button */
         }
 
         .navbar a {
@@ -30,6 +31,24 @@
         .navbar a:hover {
             background-color: red;
             color: black;
+        }
+
+        .menu-button {
+            position: absolute; /* Position the button in the top right */
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-button:hover {
+            background-color: darkred; /* Darker red on hover */
         }
 
         .content {
@@ -104,7 +123,9 @@
 </head>
 <body>
 
-    <div class="navbar">
+    <button class="menu-button" onclick="toggleMenu()">Menu</button>
+
+    <div class="navbar" id="navbar">
         <a href="#" onclick="showSection('home-section')">Home</a>
         <a href="#" onclick="showSection('download')">Download</a>
         <a href="#" onclick="showSection('contact')">Contact</a>
@@ -139,6 +160,11 @@
     </div>
 
     <script>
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            navbar.style.display = navbar.style.display === 'flex' ? 'none' : 'flex';
+        }
+
         function showSection(sectionId) {
             const sections = document.querySelectorAll('.content');
             sections.forEach(section => {
