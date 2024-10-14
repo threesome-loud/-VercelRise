@@ -8,85 +8,76 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-            transition: opacity 0.5s ease;
-            opacity: 1;
+            background-color: #121212;
+            color: #ffffff;
         }
-        header {
+
+        .navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #111;
+            justify-content: center;
+            background-color: black;
+            padding: 10px;
         }
-        h1 {
-            margin: 0;
+
+        .navbar a {
             color: red;
-        }
-        nav a {
-            color: red;
+            padding: 14px 20px;
             text-decoration: none;
-            margin: 0 15px;
+            transition: background-color 0.3s, color 0.3s;
         }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            text-align: center;
-            padding: 50px;
-        }
-        .download-button {
-            padding: 10px 20px;
+
+        .navbar a:hover {
             background-color: red;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
+            color: black;
         }
-        .download-button:hover {
-            background-color: darkred;
+
+        .content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s;
         }
-        .highlight-text {
-            color: red;
-            font-size: 24px;
-            margin: 20px 0;
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Rise Executor</h1>
-        <nav>
-            <a href="your-download-link-here">Download</a>
-            <a href="contact.html">Contact</a>
-            <a href="perks.html">Perks</a>
-        </nav>
-    </header>
-    <div class="content">
-        <h2 class="highlight-text">Welcome to Rise Executor</h2>
-        <p class="highlight-text">Your one-stop solution for all execution needs.</p>
-        <button class="download-button" onclick="window.location.href='your-download-link-here'">Download</button>
+
+    <div class="navbar">
+        <a href="#" onclick="showSection('download')">Download</a>
+        <a href="#" onclick="showSection('contact')">Contact</a>
+        <a href="#" onclick="showSection('services')">Services</a>
+    </div>
+
+    <div id="download" class="content active">
+        <h1>Download</h1>
+        <p>Here you can download our products and services.</p>
+    </div>
+
+    <div id="contact" class="content">
+        <h1>Contact</h1>
+        <p>Feel free to reach out to us via email or phone.</p>
+    </div>
+
+    <div id="services" class="content">
+        <h1>Services</h1>
+        <p>We offer a variety of services tailored to your needs.</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const links = document.querySelectorAll('nav a');
-
-            links.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetUrl = link.getAttribute('href');
-
-                    document.body.classList.add('fade-out');
-
-                    setTimeout(() => {
-                        window.location.href = targetUrl;
-                    }, 500);
-                });
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content');
+            sections.forEach(section => {
+                section.classList.remove('active');
             });
-        });
+            document.getElementById(sectionId).classList.add('active');
+        }
     </script>
 </body>
 </html>
