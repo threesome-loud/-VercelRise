@@ -58,27 +58,21 @@
             box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add a stronger shadow on hover */
         }
 
-        ul {
-            list-style-type: none; /* Remove bullet points */
-            padding: 0; /* Remove default padding */
-            display: flex; /* Use flexbox for centering */
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center items */
-            color: red; /* Change bullet color to red */
-        }
-
-        li {
-            margin: 10px 0; /* Add some space between items */
-            text-align: center; /* Center text for each list item */
+        .service-container {
+            display: flex;
+            justify-content: center; /* Center the service boxes */
+            flex-wrap: wrap; /* Allow boxes to wrap if necessary */
+            gap: 20px; /* Space between boxes */
+            margin-top: 20px; /* Space above the service boxes */
         }
 
         .service-box {
             border: 2px solid red; /* Red outline */
             border-radius: 5px; /* Rounded corners */
             padding: 20px;
-            margin: 10px;
             width: 200px; /* Set a fixed width */
             transition: transform 0.5s ease, box-shadow 0.5s ease; /* Animation for transform and shadow */
+            color: red; /* Text color inside the box */
         }
 
         .service-box:hover {
@@ -136,10 +130,12 @@
 
     <div id="services" class="content">
         <h1>Services</h1>
-        <div class="service-box">Fast Injection</div>
-        <div class="service-box">Clean and Easy to Understand UI</div>
-        <div class="service-box">24/7 Support</div>
-        <div class="service-box">Script Hub</div>
+        <div class="service-container">
+            <div class="service-box">Fast Injection</div>
+            <div class="service-box">Clean and Easy to Understand UI</div>
+            <div class="service-box">24/7 Support</div>
+            <div class="service-box">Script Hub</div>
+        </div>
     </div>
 
     <script>
