@@ -5,19 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Rise Executor</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-            text-align: center;
-            padding: 50px;
-        }
+        /* Include CSS for fade animation and layout here */
+        <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: black;
+        color: white;
+        transition: opacity 0.5s ease;
+        opacity: 1;
+    }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #111;
+    }
+    h1 {
+        margin: 0;
+        color: red;
+    }
+    nav a {
+        color: red;
+        text-decoration: none;
+        margin: 0 15px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .content {
+        text-align: center;
+        padding: 50px;
+    }
+    .download-button {
+        padding: 10px 20px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    .download-button:hover {
+        background-color: darkred;
+    }
+    .fade-out {
+        opacity: 0;
+    }
+</style>
+
     </style>
 </head>
 <body>
     <h1>About</h1>
     <p>Coming Soon</p>
     <a href="index.html" style="color: red;">Go Back</a>
+
+    <script>
+        // Include JavaScript for page transition here
+        <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('a');
+
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetUrl = link.getAttribute('href');
+
+                // Fade out the current page
+                document.body.classList.add('fade-out');
+
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 500); // Match the duration of the fade-out
+            });
+        });
+    });
+</script>
+
+    </script>
 </body>
 </html>
