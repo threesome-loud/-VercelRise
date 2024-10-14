@@ -44,11 +44,15 @@
             padding: 10px 15px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s; /* Add transform animation */
         }
 
         .menu-button:hover {
             background-color: darkred; /* Darker red on hover */
+        }
+
+        .menu-button:active {
+            transform: scale(0.95); /* Scale down when clicked */
         }
 
         .content {
@@ -77,6 +81,22 @@
             box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add a stronger shadow on hover */
         }
 
+        .button {
+            background-color: red; /* Button background color */
+            color: black; /* Button text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* Space above button */
+        }
+
+        .button:hover {
+            background-color: darkred; /* Darker red on hover */
+        }
+
         .service-container {
             display: flex;
             flex-direction: column; /* Stack boxes on top of each other */
@@ -97,22 +117,6 @@
         .service-box:hover {
             transform: scale(1.05); /* Scale up the box */
             box-shadow: 0 8px 20px rgba(255, 0, 0, 0.7); /* Add shadow on hover */
-        }
-
-        .button {
-            background-color: red; /* Button background color */
-            color: black; /* Button text color */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            margin-top: 20px; /* Space above button */
-        }
-
-        .button:hover {
-            background-color: darkred; /* Darker red on hover */
         }
 
         @keyframes fadeIn {
@@ -136,6 +140,7 @@
         <h1>Welcome to Rise Executor</h1>
         <p>Your success is our mission.</p>
         <img src="image.jpg" alt="Rise Executor Image"> <!-- Replace with your local image file name -->
+        <button class="button">Download Now</button> <!-- Download button on homepage -->
     </div>
     
     <div id="download" class="content">
@@ -163,6 +168,12 @@
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'flex' ? 'none' : 'flex';
+            // Add animation class for the menu button
+            const menuButton = document.querySelector('.menu-button');
+            menuButton.classList.add('active');
+            setTimeout(() => {
+                menuButton.classList.remove('active');
+            }, 300); // Duration of the animation
         }
 
         function showSection(sectionId) {
