@@ -9,39 +9,53 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            background-image: linear-gradient(to bottom, #fff, #f4f4f4);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         header {
-            background-color: #333;
-            color: #fff;
+            background-color: #2c3e50;
+            color: #ecf0f1;
             padding: 1em;
             text-align: center;
             font-size: 1.5em;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
         }
 
-        main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-
-       .question-container {
-            background-color: #fff;
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
             padding: 2em;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 600px;
+            width: 90%;
+            margin: 80px auto 20px;
+        }
+
+        .image-container {
             text-align: center;
+            margin-bottom: 1em;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         #question {
-            font-size: 1.8em;
+            font-size: 1.4em;
             margin-bottom: 1em;
-            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
         }
 
         #options {
@@ -51,67 +65,72 @@
         }
 
         #options li {
-            margin-bottom: 0.5em;
+            margin-bottom: 0.8em;
         }
 
         #options li button {
             width: 100%;
-            padding: 0.5em;
+            padding: 0.8em;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #f0f0f0;
+            background-color: #3498db;
+            color: #ffffff;
+            font-size: 1em;
             transition: background-color 0.3s ease;
-            font-size: 1.2em;
         }
 
         #options li button:hover {
-            background-color: #ccc;
+            background-color: #2980b9;
         }
 
         #submit, #next {
             margin-top: 1em;
-            padding: 0.5em 1em;
+            padding: 0.8em 1.5em;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #333;
-            color: #fff;
+            background-color: #2ecc71;
+            color: #ffffff;
+            font-size: 1em;
             transition: background-color 0.3s ease;
-            font-size: 1.2em;
         }
 
         #submit:hover, #next:hover {
-            background-color: #444;
+            background-color: #27ae60;
         }
 
-        #result, #score {
+        #result {
             margin-top: 1em;
             font-size: 1.2em;
-            color: #666;
-        }
-
-       .image-container {
+            font-weight: bold;
             text-align: center;
-            margin-bottom: 1em;
         }
 
-       .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-       .score-board {
-            background-color: #fff;
-            padding: 1em;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .score-board {
+            background-color: #34495e;
+            color: #ecf0f1;
+            padding: 0.5em 1em;
+            border-radius: 25px;
             position: fixed;
-            top: 10px;
-            right: 10px;
+            bottom: 20px;
+            right: 20px;
             font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .score-board span {
+            margin: 0 5px;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-container {
+                width: 95%;
+                padding: 1em;
+            }
         }
     </style>
 </head>
@@ -119,131 +138,155 @@
     <header>
         <h1>French Art and Architecture Quiz</h1>
     </header>
-    <div class="score-board">
-        <p id="score">Score: 0 / 0</p>
-    </div>
-    <main>
-        <div class="question-container">
-            <div class="image-container">
-                <!-- Image will be displayed here -->
-                <img id="question-image" src="" alt="Question Image">
-            </div>
-            <p id="question"></p>
-            <ul id="options">
-                <!-- Options will be generated here -->
-            </ul>
-            <button id="submit">Submit</button>
-            <button id="next" disabled>Next Question</button>
-            <p id="result"></p>
+    <div class="quiz-container">
+        <div class="image-container">
+            <img id="question-image" src="" alt="Question Image">
         </div>
-    </main>
+        <p id="question"></p>
+        <ul id="options"></ul>
+        <button id="submit">Submit</button>
+        <button id="next" disabled>Next Question</button>
+        <p id="result"></p>
+    </div>
+    <div class="score-board">
+        <span id="score">Score: 0</span>
+        <span id="total">/ 10</span>
+    </div>
 
     <script>
-        let currentQuestion = 0;
-        let score = 0;
-        let totalQuestions = 0;
         const questions = [
             {
                 question: "Which French artist is famous for his 'Water Lilies' series?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Claude_Monet_-_Water_Lilies_%281918%29.jpg/800px-Claude_Monet_-_Water_Lilies_%281918%29.jpg",
-                options: ["Monet", "Renoir", "Van Gogh", "Picasso"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Monet_Water_Lilies_1916.jpg/800px-Monet_Water_Lilies_1916.jpg",
+                options: ["Claude Monet", "Pierre-Auguste Renoir", "Edgar Degas", "Paul Cézanne"],
                 answer: 0
             },
             {
-                question: "Who is the French artist known for his 'Dance at Le Moulin de la Galette' painting?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pierre-Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Google_Art_Project.jpg/800px-Pierre-Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Google_Art_Project.jpg",
-                options: ["Renoir", "Monet", "Degas", "Toulouse-Lautrec"],
+                question: "Who designed the Eiffel Tower?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/800px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+                options: ["Gustave Eiffel", "Le Corbusier", "Antoni Gaudí", "Frank Lloyd Wright"],
                 answer: 0
             },
             {
-                question: "Which art movement is characterized by short, broken brushstrokes and vivid colors?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Claude_Monet_-_Impression%2C_Sunrise_-_Google_Art_Project.jpg/800px-Claude_Monet_-_Impression%2C_Sunrise_-_Google_Art_Project.jpg",
-                options: ["Impressionism", "Cubism", "Surrealism", "Fauvism"],
+                question: "Which architectural style is Notre-Dame de Paris known for?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Cath%C3%A9drale_Notre-Dame_de_Paris%2C_20_March_2014.jpg/800px-Cath%C3%A9drale_Notre-Dame_de_Paris%2C_20_March_2014.jpg",
+                options: ["Baroque", "Renaissance", "Gothic", "Romanesque"],
+                answer: 2
+            },
+            {
+                question: "Who painted 'The Liberty Leading the People'?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg/800px-Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg",
+                options: ["Jacques-Louis David", "Eugène Delacroix", "Jean-Auguste-Dominique Ingres", "Théodore Géricault"],
+                answer: 1
+            },
+            {
+                question: "Which palace was the residence of French Kings?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chateau_Versailles_Galerie_des_Glaces.jpg/800px-Chateau_Versailles_Galerie_des_Glaces.jpg",
+                options: ["Louvre Palace", "Palace of Versailles", "Fontainebleau Palace", "Château de Chambord"],
+                answer: 1
+            },
+            {
+                question: "Who sculpted 'The Thinker'?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/The_Thinker%2C_Rodin.jpg/800px-The_Thinker%2C_Rodin.jpg",
+                options: ["Auguste Rodin", "Camille Claudel", "Antoine Bourdelle", "Aristide Maillol"],
                 answer: 0
             },
             {
-                question: "Who is the artist behind the famous painting 'Les Demoiselles d'Avignon'?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Pablo_Picasso_-_Les_Demoiselles_d%27Avignon.jpg/800px-Pablo_Picasso_-_Les_Demoiselles_d%27Avignon.jpg",
-                options: ["Picasso", "Braque", "Matisse", "Dalí"],
+                question: "Which art movement did Paul Gauguin belong to?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Paul_Gauguin_-_D%27ou_venons-nous.jpg/800px-Paul_Gauguin_-_D%27ou_venons-nous.jpg",
+                options: ["Impressionism", "Cubism", "Post-Impressionism", "Fauvism"],
+                answer: 2
+            },
+            {
+                question: "Who designed the Centre Pompidou in Paris?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Le_Centre_Pompidou.jpg/800px-Le_Centre_Pompidou.jpg",
+                options: ["Jean Nouvel", "Renzo Piano & Richard Rogers", "Norman Foster", "Zaha Hadid"],
+                answer: 1
+            },
+            {
+                question: "Which French artist is known for his pointillist technique?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/800px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg",
+                options: ["Georges Seurat", "Paul Signac", "Henri Matisse", "André Derain"],
                 answer: 0
             },
             {
-                question: "Which French artist is known for his paintings of the 'Mount Saint-Victoire'?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/C%C3%A9zanne_-_Mount_Saint-Victoire_%281900%29.jpg/800px-C%C3%A9zanne_-_Mount_Saint-Victoire_%281900%29.jpg",
-                options: ["Cézanne", "Monet", "Renoir", "Van Gogh"],
-                answer: 0
-            },
-            // Add more questions here
+                question: "Which famous museum in Paris was originally a train station?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mus%C3%A9e_d%27Orsay%2C_North-West_view%2C_Paris_7e_140402.jpg/800px-Mus%C3%A9e_d%27Orsay%2C_North-West_view%2C_Paris_7e_140402.jpg",
+                options: ["Louvre Museum", "Musée d'Orsay", "Centre Pompidou", "Musée Rodin"],
+                answer: 1
+            }
         ];
 
-        totalQuestions = questions.length;
-
-        document.addEventListener("DOMContentLoaded", function() {
-            displayQuestion();
-        });
+        let currentQuestion = 0;
+        let score = 0;
 
         function displayQuestion() {
-            const questionElement = document.getElementById("question");
-            const optionsElement = document.getElementById("options");
-            const submitButton = document.getElementById("submit");
-            const nextButton = document.getElementById("next");
-            const resultElement = document.getElementById("result");
-            const scoreElement = document.getElementById("score");
-            const imageElement = document.getElementById("question-image");
-
-            questionElement.textContent = questions[currentQuestion].question;
-            imageElement.src = questions[currentQuestion].image;
-            optionsElement.innerHTML = "";
-
-            questions[currentQuestion].options.forEach((option, index) => {
-                const li = document.createElement("li");
-                const button = document.createElement("button");
+            const question = questions[currentQuestion];
+            document.getElementById('question-image').src = question.image;
+            document.getElementById('question').textContent = question.question;
+            const options = document.getElementById('options');
+            options.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
                 button.textContent = option;
-                button.onclick = function() {
-                    checkAnswer(index);
-                };
+                button.onclick = () => selectOption(index);
                 li.appendChild(button);
-                optionsElement.appendChild(li);
+                options.appendChild(li);
             });
-
-            submitButton.onclick = function() {
-                checkAnswer(null);
-            };
-
-            nextButton.onclick = function() {
-                nextQuestion();
-            };
-
-            resultElement.textContent = "";
-            scoreElement.textContent = `Score: ${score} / ${totalQuestions}`;
-            submitButton.disabled = false;
-            nextButton.disabled = true;
+            document.getElementById('submit').disabled = true;
+            document.getElementById('next').disabled = true;
+            document.getElementById('result').textContent = '';
         }
 
-        function checkAnswer(selectedIndex) {
-            const correctAnswer = questions[currentQuestion].options.indexOf(questions[currentQuestion].options[questions[currentQuestion].answer]);
-            const resultElement = document.getElementById("result");
+        function selectOption(index) {
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(button => button.style.backgroundColor = '#3498db');
+            buttons[index].style.backgroundColor = '#e74c3c';
+            document.getElementById('submit').disabled = false;
+        }
 
-            if (selectedIndex === correctAnswer) {
-                resultElement.textContent = "Correct!";
-                score++;
-            } else {
-                resultElement.textContent = `Incorrect. The correct answer is ${questions[currentQuestion].options[correctAnswer]}.`;
-            }
-
-            document.getElementById("score").textContent = `Score: ${score} / ${totalQuestions}`;
-            document.getElementById("submit").disabled = true;
-            document.getElementById("next").disabled = false;
+        function submitAnswer() {
+            const selectedButton = document.querySelector('#options button[style*="background-color: rgb(231, 76, 60)"]');
+            if (!selectedButton) return;
+            const selectedAnswer = Array.from(document.querySelectorAll('#options button')).indexOf(selectedButton);
+            const correct = selectedAnswer === questions[currentQuestion].answer;
+            if (correct) score++;
+            document.getElementById('result').textContent = correct ? 'Correct!' : 'Incorrect!';
+            document.getElementById('score').textContent = `Score: ${score}`;
+            document.getElementById('submit').disabled = true;
+            document.getElementById('next').disabled = false;
         }
 
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion >= totalQuestions) {
-                currentQuestion = 0;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                endQuiz();
             }
+        }
 
+        function endQuiz() {
+            const quizContainer = document.querySelector('.quiz-container');
+            quizContainer.innerHTML = `
+                <h2>Quiz Completed!</h2>
+                <p>Your final score is: ${score} out of ${questions.length}</p>
+                <button onclick="restartQuiz()">Restart Quiz</button>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = 'Score: 0';
             displayQuestion();
         }
+
+        document.getElementById('submit').addEventListener('click', submitAnswer);
+        document.getElementById('next').addEventListener('click', nextQuestion);
+
+        displayQuestion();
     </script>
 </body>
 </html>
