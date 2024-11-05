@@ -3,401 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Executor</title>
+    <title>French Vocabulary Quiz</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: 'Roboto', Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            text-align: center;
-            overflow-x: hidden;
+            padding: 0;
+            background-color: #f4f4f4;
         }
 
-        .navbar {
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
             display: flex;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 15px 60px;
-            position: fixed;
-            width: calc(100% - 120px);
-            top: -70px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            transition: top 0.3s ease-in-out;
-            margin: 0 auto;
-        }
-
-        .navbar.active {
-            top: 0;
-        }
-
-        .navbar a {
-            color: red;
-            padding: 14px 20px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-size: 1.1em;
-            font-weight: 500;
-        }
-
-        .navbar a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background-color: red;
-            transition: all 0.3s ease;
-        }
-
-        .navbar a:hover::after {
-            width: 100%;
-            left: 0;
-        }
-
-        .navbar a:hover {
-            color: #ff6b6b;
-        }
-
-        .menu-button {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            background-color: red;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            font-weight: bold;
-        }
-
-        .menu-button:hover {
-            background-color: #ff6b6b;
-            transform: scale(1.05);
-        }
-
-        .menu-button:active {
-            transform: scale(0.95);
-        }
-
-        .content {
-            display: none;
-            padding: 80px 20px 20px;
-            animation: fadeIn 0.5s;
-            min-height: 100vh;
-        }
-
-        .active {
-            display: block;
-        }
-
-        .content h1 {
-            color: red;
-            font-size: 3em;
-            margin-bottom: 20px;
-            animation: slideInFromLeft 1s ease-out;
-        }
-
-        .content p {
-            color: #ff6b6b;
-            font-size: 1.2em;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            animation: slideInFromRight 1s ease-out;
-        }
-
-        .content img {
-            max-width: 80%;
-            height: auto;
-            margin: 20px auto;
-            display: block;
-            transition: all 0.5s ease;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .content img:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
-        }
-
-        .button {
-            background-color: red;
-            color: black;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .button:hover {
-            background-color: #ff6b6b;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
-        }
-
-        .button:active {
-            transform: translateY(1px);
-        }
-
-        .service-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin: 40px auto;
-            max-width: 1200px;
-            padding: 0 20px;
-        }
-
-        .service-box {
-            border: 3px solid red;
-            border-radius: 15px;
-            padding: 35px;
-            min-height: 200px;
-            transition: all 0.5s ease;
-            color: red;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            height: 100vh;
         }
 
-        .service-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,0,0,0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+       .question-container {
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .service-box:hover::before {
-            opacity: 1;
-        }
-
-        .service-box span {
-            font-size: 3em;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .service-box h3 {
+        #question {
             font-size: 1.5em;
-            margin: 15px 0;
-            color: #ff3333;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-bottom: 1em;
         }
 
-        .service-box p {
-            font-size: 1.1em;
-            line-height: 1.6;
+        #options {
+            list-style: none;
+            padding: 0;
             margin: 0;
-            color: #ff6b6b;
         }
 
-        .service-box:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
-            border-color: #ff3333;
+        #options li {
+            margin-bottom: 0.5em;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideInFromLeft {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes slideInFromRight {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        #contact-form {
-            display: flex;
-            flex-direction: column;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        #contact-form input,
-        #contact-form textarea {
-            margin-bottom: 15px;
-            padding: 10px;
+        #options li button {
+            width: 100%;
+            padding: 0.5em;
+            border: none;
             border-radius: 5px;
-            border: 1px solid red;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
+            cursor: pointer;
         }
 
-        #contact-form textarea {
-            height: 100px;
+        #options li button:hover {
+            background-color: #ccc;
         }
 
-        @media (max-width: 768px) {
-            .service-container {
-                grid-template-columns: 1fr;
-                padding: 0 15px;
-            }
-            
-            .service-box {
-                padding: 25px;
-                min-height: 180px;
-            }
+        #submit, #next {
+            margin-top: 1em;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+        }
 
-            .navbar {
-                padding: 15px 20px;
-                width: calc(100% - 40px);
-            }
-
-            .navbar a {
-                padding: 10px 15px;
-                font-size: 1em;
-            }
+        #result, #score {
+            margin-top: 1em;
         }
     </style>
 </head>
 <body>
-    <button class="menu-button" onclick="toggleMenu()">Menu</button>
-
-    <div class="navbar" id="navbar">
-        <a href="#" onclick="showSection('home-section')">Home</a>
-        <a href="#" onclick="showSection('download')">Download</a>
-        <a href="#" onclick="showSection('contact')">Contact</a>
-        <a href="#" onclick="showSection('services')">Services</a>
-    </div>
-
-    <div id="home-section" class="content active">
-        <h1>Welcome to Rise Executor</h1>
-        <p>Your success is our mission.</p>
-        <img src="image.jpg" alt="Rise Executor Image">
-        <button class="button pulse" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Now</button>
-    </div>
-    
-    <div id="download" class="content">
-        <h1>Download</h1>
-        <p>Here you can download our products and services.</p>
-        <button class="button" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Rise For Windows</button>
-    </div>
-
-    <div id="contact" class="content">
-        <h1>Contact</h1>
-        <p>Feel free to reach out to us via email or phone.</p>
-        <form id="contact-form">
-            <input type="text" name="user_name" placeholder="Your Name" required>
-            <input type="email" name="user_email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit" class="button">Send Message</button>
-        </form>
-    </div>
-
-    <div id="services" class="content">
-        <h1>Services</h1>
-        <div class="service-container">
-            <div class="service-box">
-                <span>💉</span>
-                <h3>Fast Injection</h3>
-                <p>Lightning-fast execution of your scripts.</p>
-            </div>
-            <div class="service-box">
-                <span>🪄</span>
-                <h3>Utmost Security and Undetected</h3>
-                <p>Your scripts run securely and without detection.</p>
-            </div>
-            <div class="service-box">
-                <span>🎨</span>
-                <h3>Clean UI</h3>
-                <p>Easy to understand and navigate interface.</p>
-            </div>
-            <div class="service-box">
-                <span>🔧</span>
-                <h3>24/7 Support</h3>
-                <p>Round-the-clock assistance for all your needs.</p>
-            </div>
-              <div class="service-box">
-                <span>🛡️</span>
-                <h3>Privacy and Open Source</h3>
-                <p>Meets all your needs for privacy and security, fully open source, and always safe.</p>
-            </div>
-            <div class="service-box">
-                <span>📚</span>
-                <h3>Script Hub</h3>
-                <p>Access a vast library of ready-to-use scripts in-built within the executor.</p>
-            </div>
+    <header>
+        <h1>French Vocabulary Quiz</h1>
+    </header>
+    <main>
+        <div class="question-container">
+            <p id="question"></p>
+            <ul id="options">
+                <!-- Options will be generated here -->
+            </ul>
+            <button id="submit">Submit</button>
+            <button id="next" disabled>Next Question</button>
+            <p id="result"></p>
+            <p id="score"></p>
         </div>
-    </div>
+    </main>
 
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        (function(){
-            emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
-        })();
+        let currentQuestion = 0;
+        let score = 0;
+        const questions = [
+            {
+                question: "What does 'bonjour' mean in English?",
+                options: ["Goodbye", "Hello", "Thank you", "Yes"],
+                answer: 1
+            },
+            {
+                question: "What does 'merci' mean in English?",
+                options: ["Yes", "No", "Thank you", "Goodbye"],
+                answer: 2
+            },
+            {
+                question: "What does 'au revoir' mean in English?",
+                options: ["Hello", "Goodbye", "Thank you", "Yes"],
+                answer: 1
+            },
+            // Add more questions here
+        ];
 
-        function showSection(sectionId) {
-            document.querySelectorAll('.content').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-        }
-
-        function toggleMenu() {
-            const navbar = document.getElementById('navbar');
-            navbar.classList.toggle('active');
-        }
-
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const serviceID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
-            const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
-
-            emailjs.sendForm(serviceID, templateID, this)
-                .then(() => {
-                    alert('Message sent successfully!');
-                    document.getElementById('contact-form').reset();
-                }, (err) => {
-                    alert(JSON.stringify(err));
-                });
+        document.addEventListener("DOMContentLoaded", function() {
+            displayQuestion();
         });
+
+        function displayQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const submitButton = document.getElementById("submit");
+            const nextButton = document.getElementById("next");
+            const resultElement = document.getElementById("result");
+            const scoreElement = document.getElementById("score");
+
+            questionElement.textContent = questions[currentQuestion].question;
+            optionsElement.innerHTML = "";
+
+            questions[currentQuestion].options.forEach((option, index) => {
+                const li = document.createElement("li");
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = function() {
+                    checkAnswer(index);
+                };
+                li.appendChild(button);
+                optionsElement.appendChild(li);
+            });
+
+            submitButton.onclick = function() {
+                checkAnswer(null);
+            };
+
+            nextButton.onclick = function() {
+                nextQuestion();
+            };
+
+            resultElement.textContent = "";
+            scoreElement.textContent = `Score: ${score} / ${currentQuestion + 1}`;
+            submitButton.disabled = false;
+            nextButton.disabled = true;
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctAnswer = questions[currentQuestion].answer;
+            const resultElement = document.getElementById("result");
+
+            if (selectedIndex === correctAnswer) {
+                resultElement.textContent = "Correct!";
+                score++;
+            } else {
+                resultElement.textContent = `Incorrect. The correct answer is ${questions[currentQuestion].options[correctAnswer]}.`;
+            }
+
+            document.getElementById("submit").disabled = true;
+            document.getElementById("next").disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+
+            displayQuestion();
+        }
     </script>
 </body>
 </html>
