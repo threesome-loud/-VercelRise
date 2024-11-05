@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Vocabulary Quiz</title>
+    <title>French Art and Architecture Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            background-image: linear-gradient(to bottom, #fff, #f4f4f4);
         }
 
         header {
@@ -24,6 +25,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
 
        .question-container {
@@ -31,6 +33,7 @@
             padding: 2em;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
         }
 
         #question {
@@ -54,6 +57,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s ease;
         }
 
         #options li button:hover {
@@ -68,19 +73,41 @@
             cursor: pointer;
             background-color: #333;
             color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit:hover, #next:hover {
+            background-color: #444;
         }
 
         #result, #score {
             margin-top: 1em;
+            font-size: 1.2em;
+        }
+
+       .image-container {
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+       .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>French Vocabulary Quiz</h1>
+        <h1>French Art and Architecture Quiz</h1>
     </header>
     <main>
         <div class="question-container">
+            <div class="image-container">
+                <!-- Image will be displayed here -->
+                <img id="question-image" src="" alt="Question Image">
+            </div>
             <p id="question"></p>
             <ul id="options">
                 <!-- Options will be generated here -->
@@ -97,19 +124,52 @@
         let score = 0;
         const questions = [
             {
-                question: "What does 'bonjour' mean in English?",
-                options: ["Goodbye", "Hello", "Thank you", "Yes"],
-                answer: 1
+                question: "Quel peintre européen est devenu fou?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg/800px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg",
+                options: ["Van Gogh", "Renoir", "Monet", "Picasso"],
+                answer: 0
             },
             {
-                question: "What does 'merci' mean in English?",
-                options: ["Yes", "No", "Thank you", "Goodbye"],
-                answer: 2
+                question: "Quel peintre français s'est inspiré de scènes exotiques?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pierre-Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Google_Art_Project.jpg/800px-Pierre-Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Google_Art_Project.jpg",
+                options: ["Renoir", "Monet", "Degas", "Toulouse-Lautrec"],
+                answer: 0
             },
             {
-                question: "What does 'au revoir' mean in English?",
-                options: ["Hello", "Goodbye", "Thank you", "Yes"],
-                answer: 1
+                question: "Les Nymphéas est une oeuvre de...",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Claude_Monet_-_Water_Lilies_%281918%29.jpg/800px-Claude_Monet_-_Water_Lilies_%281918%29.jpg",
+                options: ["Monet", "Renoir", "Van Gogh", "Picasso"],
+                answer: 0
+            },
+            {
+                question: "Quel mouvement de peinture est apparu en France vers 1875?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Claude_Monet_-_Impression%2C_Sunrise_-_Google_Art_Project.jpg/800px-Claude_Monet_-_Impression%2C_Sunrise_-_Google_Art_Project.jpg",
+                options: ["Impressionism", "Cubism", "Surrealism", "Fauvism"],
+                answer: 0
+            },
+            {
+                question: "Qui a inventé le Cubisme?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Pablo_Picasso_-_Les_Demoiselles_d%27Avignon.jpg/800px-Pablo_Picasso_-_Les_Demoiselles_d%27Avignon.jpg",
+                options: ["Picasso", "Braque", "Matisse", "Dalí"],
+                answer: 0
+            },
+            {
+                question: "Qui a peint la montagne Sainte Victoire?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/C%C3%A9zanne_-_Mount_Saint-Victoire_%281900%29.jpg/800px-C%C3%A9zanne_-_Mount_Saint-Victoire_%281900%29.jpg",
+                options: ["Cézanne", "Monet", "Renoir", "Van Gogh"],
+                answer: 0
+            },
+            {
+                question: "De quelle origine est Toulouse-Lautrec?",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Henri_de_Toulouse-Lautrec_-_Self-portrait_-_Google_Art_Project.jpg/800px-Henri_de_Toulouse-Lautrec_-_Self-portrait_-_Google_Art_Project.jpg",
+                options: ["French", "Spanish", "Italian", "German"],
+                answer: 0
+            },
+            {
+                question: "Quelle technique de peinture utilise l'eau?",
+                image: "",
+                options: ["Watercolor", "Oil Painting", "Acrylic Painting", "Gouache"],
+                answer: 0
             },
             // Add more questions here
         ];
@@ -125,8 +185,10 @@
             const nextButton = document.getElementById("next");
             const resultElement = document.getElementById("result");
             const scoreElement = document.getElementById("score");
+            const imageElement = document.getElementById("question-image");
 
             questionElement.textContent = questions[currentQuestion].question;
+            imageElement.src = questions[currentQuestion].image;
             optionsElement.innerHTML = "";
 
             questions[currentQuestion].options.forEach((option, index) => {
@@ -155,7 +217,7 @@
         }
 
         function checkAnswer(selectedIndex) {
-            const correctAnswer = questions[currentQuestion].answer;
+            const correctAnswer = questions[currentQuestion].options.indexOf(questions[currentQuestion].options[questions[currentQuestion].answer]);
             const resultElement = document.getElementById("result");
 
             if (selectedIndex === correctAnswer) {
