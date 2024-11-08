@@ -3,290 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Art and Architecture Quiz</title>
+    <title>Rise Executor</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
         body {
-            font-family: 'Montserrat', sans-serif;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 60px;
+            position: fixed;
+            width: calc(100% - 120px);
+            top: -70px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+            margin: 0 auto;
+        }
+
+        .navbar.active {
+            top: 0;
+        }
+
+        .navbar a {
+            color: red;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: red;
+            transition: all 0.3s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .navbar a:hover {
+            color: #ff6b6b;
+        }
+
+        .menu-button {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            font-weight: bold;
+        }
+
+        .menu-button:hover {
+            background-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+
+        .menu-button:active {
+            transform: scale(0.95);
+        }
+
+        .content {
+            display: none;
+            padding: 80px 20px 20px;
+            animation: fadeIn 0.5s;
             min-height: 100vh;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .content h1 {
+            color: red;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .content p {
+            color: #ff6b6b;
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            animation: slideInFromRight 1s ease-out;
+        }
+
+        .content img {
+            max-width: 80%;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .content img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
+        }
+
+        .button {
+            background-color: red;
+            color: black;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .button:hover {
+            background-color: #ff6b6b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+        }
+
+        .service-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .service-box {
+            border: 3px solid red;
+            border-radius: 15px;
+            padding: 35px;
+            min-height: 200px;
+            transition: all 0.5s ease;
+            color: red;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        header {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 1em;
-            text-align: center;
-            font-size: 1.5em;
-            width: 100%;
-            position: fixed;
+        .service-box::before {
+            content: '';
+            position: absolute;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,0,0,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .quiz-container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-            padding: 2em;
-            max-width: 600px;
-            width: 90%;
-            margin: 80px auto 20px;
+        .service-box:hover::before {
+            opacity: 1;
         }
 
-        .image-container {
-            text-align: center;
-            margin-bottom: 1em;
+        .service-box span {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
         }
 
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .service-box h3 {
+            font-size: 1.5em;
+            margin: 15px 0;
+            color: #ff3333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        #question {
-            font-size: 1.4em;
-            margin-bottom: 1em;
-            color: #2c3e50;
-            text-align: center;
-        }
-
-        #options {
-            list-style: none;
-            padding: 0;
+        .service-box p {
+            font-size: 1.1em;
+            line-height: 1.6;
             margin: 0;
+            color: #ff6b6b;
         }
 
-        #options li {
-            margin-bottom: 0.8em;
+        .service-box:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
+            border-color: #ff3333;
         }
 
-        #options li button {
-            width: 100%;
-            padding: 0.8em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #3498db;
-            color: #ffffff;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        #options li button:hover {
-            background-color: #2980b9;
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        #submit, #next {
-            margin-top: 1em;
-            padding: 0.8em 1.5em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #2ecc71;
-            color: #ffffff;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
+        @keyframes slideInFromRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        #submit:hover, #next:hover {
-            background-color: #27ae60;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        #result {
-            margin-top: 1em;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        .score-board {
-            background-color: #34495e;
-            color: #ecf0f1;
-            padding: 0.5em 1em;
-            border-radius: 25px;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 1.2em;
+        #contact-form {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
-        .score-board span {
-            margin: 0 5px;
+        #contact-form input,
+        #contact-form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid red;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
-        @media (max-width: 600px) {
-            .quiz-container {
-                width: 95%;
-                padding: 1em;
+        #contact-form textarea {
+            height: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .service-container {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .service-box {
+                padding: 25px;
+                min-height: 180px;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+                width: calc(100% - 40px);
+            }
+
+            .navbar a {
+                padding: 10px 15px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>French Art and Architecture Quiz</h1>
-    </header>
-    <div class="quiz-container">
-        <div class="image-container">
-            <img id="question-image" src="" alt="Question Image">
+    <button class="menu-button" onclick="toggleMenu()">Menu</button>
+
+    <div class="navbar" id="navbar">
+        <a href="#" onclick="showSection('home-section')">Home</a>
+        <a href="#" onclick="showSection('download')">Download</a>
+        <a href="#" onclick="showSection('contact')">Contact</a>
+        <a href="#" onclick="showSection('services')">Services</a>
+    </div>
+
+    <div id="home-section" class="content active">
+        <h1>Welcome to Rise Executor</h1>
+        <p>Your success is our mission.</p>
+        <img src="image.jpg" alt="Rise Executor Image">
+        <button class="button pulse" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Now</button>
+    </div>
+    
+    <div id="download" class="content">
+        <h1>Download</h1>
+        <p>Here you can download our products and services.</p>
+        <button class="button" onclick="window.location.href='https://direct-link.net/1232374/rise-v35-release'">Download Rise For Windows</button>
+    </div>
+
+    <div id="contact" class="content">
+        <h1>Contact</h1>
+        <p>Feel free to reach out to us via email or phone.</p>
+        <form id="contact-form">
+            <input type="text" name="user_name" placeholder="Your Name" required>
+            <input type="email" name="user_email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit" class="button">Send Message</button>
+        </form>
+    </div>
+
+    <div id="services" class="content">
+        <h1>Services</h1>
+        <div class="service-container">
+            <div class="service-box">
+                <span>💉</span>
+                <h3>Fast Injection</h3>
+                <p>Lightning-fast execution of your scripts.</p>
+            </div>
+            <div class="service-box">
+                <span>🪄</span>
+                <h3>Utmost Security and Undetected</h3>
+                <p>Your scripts run securely and without detection.</p>
+            </div>
+            <div class="service-box">
+                <span>🎨</span>
+                <h3>Clean UI</h3>
+                <p>Easy to understand and navigate interface.</p>
+            </div>
+            <div class="service-box">
+                <span>🔧</span>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock assistance for all your needs.</p>
+            </div>
+              <div class="service-box">
+                <span>🛡️</span>
+                <h3>Privacy and Open Source</h3>
+                <p>Meets all your needs for privacy and security, fully open source, and always safe.</p>
+            </div>
+            <div class="service-box">
+                <span>📚</span>
+                <h3>Script Hub</h3>
+                <p>Access a vast library of ready-to-use scripts in-built within the executor.</p>
+            </div>
         </div>
-        <p id="question"></p>
-        <ul id="options"></ul>
-        <button id="submit">Submit</button>
-        <button id="next" disabled>Next Question</button>
-        <p id="result"></p>
-    </div>
-    <div class="score-board">
-        <span id="score">Score: 0</span>
-        <span id="total">/ 10</span>
     </div>
 
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        const questions = [
-            {
-                question: "Which French artist is famous for his 'Water Lilies' series?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Monet_Water_Lilies_1916.jpg/800px-Monet_Water_Lilies_1916.jpg",
-                options: ["Claude Monet", "Pierre-Auguste Renoir", "Edgar Degas", "Paul Cézanne"],
-                answer: 0
-            },
-            {
-                question: "Who designed the Eiffel Tower?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/800px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
-                options: ["Gustave Eiffel", "Le Corbusier", "Antoni Gaudí", "Frank Lloyd Wright"],
-                answer: 0
-            },
-            {
-                question: "Which architectural style is Notre-Dame de Paris known for?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Cath%C3%A9drale_Notre-Dame_de_Paris%2C_20_March_2014.jpg/800px-Cath%C3%A9drale_Notre-Dame_de_Paris%2C_20_March_2014.jpg",
-                options: ["Baroque", "Renaissance", "Gothic", "Romanesque"],
-                answer: 2
-            },
-            {
-                question: "Who painted 'The Liberty Leading the People'?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg/800px-Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg",
-                options: ["Jacques-Louis David", "Eugène Delacroix", "Jean-Auguste-Dominique Ingres", "Théodore Géricault"],
-                answer: 1
-            },
-            {
-                question: "Which palace was the residence of French Kings?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chateau_Versailles_Galerie_des_Glaces.jpg/800px-Chateau_Versailles_Galerie_des_Glaces.jpg",
-                options: ["Louvre Palace", "Palace of Versailles", "Fontainebleau Palace", "Château de Chambord"],
-                answer: 1
-            },
-            {
-                question: "Who sculpted 'The Thinker'?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/The_Thinker%2C_Rodin.jpg/800px-The_Thinker%2C_Rodin.jpg",
-                options: ["Auguste Rodin", "Camille Claudel", "Antoine Bourdelle", "Aristide Maillol"],
-                answer: 0
-            },
-            {
-                question: "Which art movement did Paul Gauguin belong to?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Paul_Gauguin_-_D%27ou_venons-nous.jpg/800px-Paul_Gauguin_-_D%27ou_venons-nous.jpg",
-                options: ["Impressionism", "Cubism", "Post-Impressionism", "Fauvism"],
-                answer: 2
-            },
-            {
-                question: "Who designed the Centre Pompidou in Paris?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Le_Centre_Pompidou.jpg/800px-Le_Centre_Pompidou.jpg",
-                options: ["Jean Nouvel", "Renzo Piano & Richard Rogers", "Norman Foster", "Zaha Hadid"],
-                answer: 1
-            },
-            {
-                question: "Which French artist is known for his pointillist technique?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/800px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg",
-                options: ["Georges Seurat", "Paul Signac", "Henri Matisse", "André Derain"],
-                answer: 0
-            },
-            {
-                question: "Which famous museum in Paris was originally a train station?",
-                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mus%C3%A9e_d%27Orsay%2C_North-West_view%2C_Paris_7e_140402.jpg/800px-Mus%C3%A9e_d%27Orsay%2C_North-West_view%2C_Paris_7e_140402.jpg",
-                options: ["Louvre Museum", "Musée d'Orsay", "Centre Pompidou", "Musée Rodin"],
-                answer: 1
-            }
-        ];
+        (function(){
+            emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+        })();
 
-        let currentQuestion = 0;
-        let score = 0;
-
-        function displayQuestion() {
-            const question = questions[currentQuestion];
-            document.getElementById('question-image').src = question.image;
-            document.getElementById('question').textContent = question.question;
-            const options = document.getElementById('options');
-            options.innerHTML = '';
-            question.options.forEach((option, index) => {
-                const li = document.createElement('li');
-                const button = document.createElement('button');
-                button.textContent = option;
-                button.onclick = () => selectOption(index);
-                li.appendChild(button);
-                options.appendChild(li);
+        function showSection(sectionId) {
+            document.querySelectorAll('.content').forEach(section => {
+                section.classList.remove('active');
             });
-            document.getElementById('submit').disabled = true;
-            document.getElementById('next').disabled = true;
-            document.getElementById('result').textContent = '';
+            document.getElementById(sectionId).classList.add('active');
         }
 
-        function selectOption(index) {
-            const buttons = document.querySelectorAll('#options button');
-            buttons.forEach(button => button.style.backgroundColor = '#3498db');
-            buttons[index].style.backgroundColor = '#e74c3c';
-            document.getElementById('submit').disabled = false;
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('active');
         }
 
-        function submitAnswer() {
-            const selectedButton = document.querySelector('#options button[style*="background-color: rgb(231, 76, 60)"]');
-            if (!selectedButton) return;
-            const selectedAnswer = Array.from(document.querySelectorAll('#options button')).indexOf(selectedButton);
-            const correct = selectedAnswer === questions[currentQuestion].answer;
-            if (correct) score++;
-            document.getElementById('result').textContent = correct ? 'Correct!' : 'Incorrect!';
-            document.getElementById('score').textContent = `Score: ${score}`;
-            document.getElementById('submit').disabled = true;
-            document.getElementById('next').disabled = false;
-        }
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                displayQuestion();
-            } else {
-                endQuiz();
-            }
-        }
+            const serviceID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
+            const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
 
-        function endQuiz() {
-            const quizContainer = document.querySelector('.quiz-container');
-            quizContainer.innerHTML = `
-                <h2>Quiz Completed!</h2>
-                <p>Your final score is: ${score} out of ${questions.length}</p>
-                <button onclick="restartQuiz()">Restart Quiz</button>
-            `;
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('score').textContent = 'Score: 0';
-            displayQuestion();
-        }
-
-        document.getElementById('submit').addEventListener('click', submitAnswer);
-        document.getElementById('next').addEventListener('click', nextQuestion);
-
-        displayQuestion();
+            emailjs.sendForm(serviceID, templateID, this)
+                .then(() => {
+                    alert('Message sent successfully!');
+                    document.getElementById('contact-form').reset();
+                }, (err) => {
+                    alert(JSON.stringify(err));
+                });
+        });
     </script>
 </body>
 </html>
